@@ -7,15 +7,16 @@
     }
     body {
         background-color: hsla(@Hue,70%,70%,0.5);
+        transition: background-color 1s linear;
     }
 </style>
 @code {
     System.Timers.Timer TitleClock;
     string Title = $"Style Test {DateTime.Now.ToLongTimeString()}";
     int Hue = 0;
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        base.OnInitialized();
         TitleClock = new System.Timers.Timer(1000);
         TitleClock.Elapsed += ClockTask;
         TitleClock.AutoReset = true;
@@ -24,9 +25,9 @@
 
     void ClockTask(object sender, EventArgs e)
     {
-        Hue = (Hue + 10) % 256;
+        Hue = (Hue + 5) % 256;
         Title = $"Style Test {DateTime.Now.ToLongTimeString()}";
-        Invoke(StateHasChanged);
+        InvokeAsync(StateHasChanged);
         Console.WriteLine(Title);
     }
 }
